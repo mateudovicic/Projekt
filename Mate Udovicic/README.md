@@ -155,16 +155,22 @@ E
 PROBLEM
 Skripta se rušila prilikom generiranja DataFrame-a za mjerenja zbog pogrešnog korištenja
 np.round() na cijelom nizu s različitim decimalnim mjestima
+
+
 UZROK
 Funkcija nije podržavala različite preciznosti za elemente niza.
 Kada je pogrešno korišteno da se vrijednosti zaokruživaju u cijelom nizu a ne pojedinačno
 dolazilo je do ValueError
+
+
 KORACI RJEŠAVANJA
   1.Provjerio sam traceback poruku i identificirao liniju s np.round()
   2.Pregledao sam dokumentaciju: np.round(a,decimals), očekuje skalarni decimals.
   3.Ispravio sam pozive taki da se za svaki niz koristi odgovarajući broj decimala.
   4.Dodao sam np.clip() za pH vrijednosti kako bi bile u fizički mogućem rasponu(0-14)
   5.Testirao sam generiranje DataFrame-a na 2000 uzoraka
+
+
 REZULTAT
 Skripta se uspješno izvršava.DataFrame s mjerenjima se ispravno generira
 bez grešaka.Vrijednosti su zaokružene odgovarajućom preciznošću.
@@ -174,14 +180,20 @@ bez grešaka.Vrijednosti su zaokružene odgovarajućom preciznošću.
 PROBLEM
 Pojavila se pogreška: ValueError:all arrays must be of the same lenght, prilikom
 kreiranja DataFrame-a za lokacije ili mjerenja.
+
+
 UZROK
 Nizovi u rječniku koji se predaje pd.DataFrame() nisu imali istu duljinu.
 Najčešći uzrok:pogrešno korištenje range ili generiranje pojedinih stupaca s različitim n_rows
+
+
 KORACI RJEŠAVANJA
   1.Ispisao sam duljine svih nizova prije kreiranja DataFrame-a i uočio problem.
   2.Uvijek sam koristio isti n_rows za sve generatore.
   3.Standardizirao sam generiranje ID_Uzorka: range(1,n_rows + 1)
   4.Ponovno sam generirao sve nizove i izgradio DataFrame.
+
+
 REZULTAT
 Svi stupci imaju istu duljinu(2000).DataFrame se uspješno kreira i sprema bez pogrešaka.
 
