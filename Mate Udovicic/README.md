@@ -1,12 +1,21 @@
 A. Izvršni sažetak (Executive Summary)
 
+# Istraživanje mogućnosti života na Marsu kroz analizu kratera Jezero
+
 
 Krater Jezero detaljno je analizirano kako bi se saznalo postoji li života na Marsu, to jest moglo bi li se jednog dana preseliti na Mars.
+
+
+## Korištenje senzorskih podataka i analize uzoraka za procjenu uvjeta života i planiranje sigurnog kretanja rovera
+
+
 U analizi se koriste strukturirani ulazni podaci prikupljeni senzorima i instrumentima,uključujući identifikator uzorka, dubinu bušenja,
 temperaturu tla, pH vrijednost, postotak vode, očitanja metanskog senzora, prisutnost organskih molekula, GPS koordinate, temperaturu okoliša, vlažnost tla te koncentraciju metana u ppm.
 Obradom tih podataka procjenjuje se mogućnost života na Marsu, te se roveru omogućuju sigurne rute kretanja.
 
 B. Metodologija obrade podataka (Data Wrangling)
+
+# Metodologija obrade i simulacije podataka za analizu Marsovog okoliša
 
 
 1. Modeliranje binarnih i kategoričkih varijabli (metan i organske tvari)
@@ -45,6 +54,10 @@ Koordinate se generiraju pomoću normalne distribucije:
 -centralna točka klastera definira “geološku zonu”
 
 Ovo sprječava uniformnu distribuciju i uvodi prirodnu prostornu korelaciju podataka.
+
+
+## Statističko modeliranje, prostorna segmentacija i simulacija senzorskog šuma za realističnu interpretaciju podataka iz kratera Jezero
+
 
 3. Uvjetno generiranje okolišnih varijabli
 
@@ -87,6 +100,8 @@ Ovaj pristup je odabran jer:
 C. Geoprostorna analiza i vizualizacija
 
 
+# Geoprostorna analiza i vizualizacija podataka iz kratera Jezero
+
 
 [![H2O%,Temp.tla i metan](assets/graf1_temperatura_voda.png)]
 Na ovom grafu vidimo postotak vode, temperaturu tla i prisutnost metana.
@@ -105,6 +120,8 @@ Na ovom grafu vidimo prisutnost metana na određenim koordinatama, najveća pris
 je na koordinatama između 18.47 I 18.49 LON te 77.38 i 77.40 LAT. Koordinate bez prisutnosti
 metana su najčešce na koordinatama 18.48 LON,77.39 LAT i 18.48 LON,77.397 LAT.
 
+## Interpretacija raspodjele vode, temperature, dubine i metana kroz grafičke prikaze i prostorne uzorke**
+
 [![Temp,vlaznost i metan](assets/graf_4_.png)]
 Na ovom grafu vidimo na kojim je koordinatama metan najviše zastupljen u ppm.
 Koordinate sa preko 50 ppm metana se sve vrte oko 226.0 LON i 18.7 LAT
@@ -116,7 +133,7 @@ to nam omogućava da lakše očitamo koordinate i da vidimo i točkica sa manjom
 D. Komunikacijski protokol (JSON Uplink)
 
 
-
+# Komunikacijski protokol i struktura JSON paketa
 
     paket = {
         "projekt": "Nexus",
@@ -139,6 +156,8 @@ D. Komunikacijski protokol (JSON Uplink)
             "organske_molekule": organske,
             "status": "PRIORITET" if hitno else "NORMALNO"
 
+## Modularni prijenos podataka senzora uz skalabilan i fleksibilan dizajn za učinkovitu komunikaciju misije
+
 Ovdje je prikaz korištenih JSON podataka za ovu misiju.
 Paket je strukturiran na dvije glavne cjeline, na paket i meta podatke
 te senzore.Umjesto ručnog pisanja svakog senzora (hardcoding), koristi se petlja nad kolekcijom senzora.
@@ -155,7 +174,11 @@ Prednosti:
 E. Inženjerski dnevnik (Troubleshooting Log)
 
 
+# Inženjerski dnevnik rješavanja problema u obradi podataka
 
+
+
+## Analiza grešaka, uzroka i rješenja pri generiranju podataka i izgradnji DataFrame struktura
 1.Neispravno zaokruživanje vrijednosti(np.round)
 PROBLEM
 Skripta se rušila prilikom generiranja DataFrame-a za mjerenja zbog pogrešnog korištenja
