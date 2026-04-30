@@ -1,12 +1,14 @@
-A
-#Krater Jezero
+A. Izvršni sažetak (Executive Summary)
+
+
 Krater Jezero detaljno je analizirano kako bi se saznalo postoji li života na Marsu, to jest moglo bi li se jednog dana preseliti na Mars.
 U analizi se koriste strukturirani ulazni podaci prikupljeni senzorima i instrumentima,uključujući identifikator uzorka, dubinu bušenja,
 temperaturu tla, pH vrijednost, postotak vode, očitanja metanskog senzora, prisutnost organskih molekula, GPS koordinate, temperaturu okoliša, vlažnost tla te koncentraciju metana u ppm.
 Obradom tih podataka procjenjuje se mogućnost života na Marsu, te se roveru omogućuju sigurne rute kretanja.
 
-B
-#Pojašnjenje koda
+B. Metodologija obrade podataka (Data Wrangling)
+
+
 1. Modeliranje binarnih i kategoričkih varijabli (metan i organske tvari)
 
 Vrijednosti poput prisutnosti metana i organskih tvari generirane su pomoću uvjetnih vjerojatnosti:
@@ -82,8 +84,9 @@ Ovaj pristup je odabran jer:
 -osigurava prostornu i okolišnu korelaciju varijabli
 -omogućuje testiranje robusnosti analitičkih modela (npr. detekcija anomalija)
 
-C
-#Pojašnjenje grafova
+C. Geoprostorna analiza i vizualizacija
+
+
 
 [![H2O%,Temp.tla i metan](assets/graf1_temperatura_voda.png)]
 Na ovom grafu vidimo postotak vode, temperaturu tla i prisutnost metana.
@@ -110,8 +113,9 @@ Koordinate sa preko 50 ppm metana se sve vrte oko 226.0 LON i 18.7 LAT
 Ovaj graf je skoro isti kao i prošli, samo u ovom su rubovi točkica podebljani i 
 to nam omogućava da lakše očitamo koordinate i da vidimo i točkica sa manjom prisutnosti metana.
 
-D
-#JSON
+D. Komunikacijski protokol (JSON Uplink)
+
+
 
 
     paket = {
@@ -148,8 +152,9 @@ Prednosti:
 -Jasno razdvaja metapodatke i senzorske podatke
 -Petlje omogućuju automatizaciju i skalabilnost sustava
 
-E
-#Greške i postupci ispravljanja
+E. Inženjerski dnevnik (Troubleshooting Log)
+
+
 
 1.Neispravno zaokruživanje vrijednosti(np.round)
 PROBLEM
