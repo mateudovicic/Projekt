@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-df = pd.read_csv('mars_soil_samples.csv', sep=';')
+df = pd.read_csv('data'/'mars_soil_samples.csv', sep=';')
 
 print("Podaci učitani.")
 print(f"Ukupan broj uzoraka: {df.shape[0]}")
@@ -31,7 +31,7 @@ print("\n--- KONAČNI KANDIDATI ---")
 print(f"Pronađeno savršenih lokacija: {kandidati.shape[0]}")
 print(kandidati.head())
 
-kandidati.to_csv('mars_kandidati.csv', sep=';', index=False)
+kandidati.to_csv('data'/'mars_kandidati.csv', sep=';', index=False)
 print("\nDatoteka 'mars_kandidati.csv' je uspješno kreirana.")
 
 
