@@ -1,8 +1,8 @@
-A. Izvršni sažetak (Executive Summary)
+# A. Izvršni sažetak (Executive Summary)
 
 Ovaj projekt, nazvan "Nexus", ima za cilj automatizaciju prikupljanja i prijenosa znanstvenih podataka s površine Marsa, konkretno iz područja kratera Jezero, poznatog po potencijalnim tragovima drevnog života. Ulazni podaci obuhvaćaju GPS koordinate lokacija uzorkovanja te senzorske mjerne vrijednosti poput dubine bušenja, temperature tla, pH vrijednosti, postotka vlage, prisutnosti metana i organskih molekula — sve pohranjeno u CSV datotekama (mars_sample_locations.csv i mars_kandidati.csv). Konačni cilj je izgradnja automatiziranog sustava koji, na temelju skeniranog barkoda palete i izmjerene težine senzora, pakira sve relevantne podatke u strukturirani JSON nalog (tovarni list), lokalno ga arhivira te ga šalje na centralni server putem HTTP POST zahtjeva, s mogućnošću označavanja prioritetnih (hitnih) uzoraka — čime se omogućuje brza, pouzdana i automatizirana navigacija i logistika misije.Sonnet 4.6
 
-B. Metodologija obrade podataka (Data Wrangling)
+# B. Metodologija obrade podataka (Data Wrangling)
 
 # Metodologija obrade i simulacije podataka za analizu Marsovog okoliša
 
@@ -47,8 +47,7 @@ Ovo sprječava uniformnu distribuciju i uvodi prirodnu prostornu korelaciju poda
 
 ## Statističko modeliranje, prostorna segmentacija i simulacija senzorskog šuma za realističnu interpretaciju podataka iz kratera Jezero
 
-
-3. Uvjetno generiranje okolišnih varijabli
+ 3. Uvjetno generiranje okolišnih varijabli
 
 Za svaki klaster definiraju se specifične distribucije:
 
@@ -86,10 +85,10 @@ Ovaj pristup je odabran jer:
 -osigurava prostornu i okolišnu korelaciju varijabli
 -omogućuje testiranje robusnosti analitičkih modela (npr. detekcija anomalija)
 
-C. Geoprostorna analiza i vizualizacija
+# C. Geoprostorna analiza i vizualizacija
 
 
-# Geoprostorna analiza i vizualizacija podataka iz kratera Jezero
+## Geoprostorna analiza i vizualizacija podataka iz kratera Jezero
 
 
 [![H2O%,Temp.tla i metan](assets/graf1_temperatura_voda.png)]
@@ -119,10 +118,10 @@ Koordinate sa preko 50 ppm metana se sve vrte oko 226.0 LON i 18.7 LAT
 Ovaj graf je skoro isti kao i prošli, samo u ovom su rubovi točkica podebljani i 
 to nam omogućava da lakše očitamo koordinate i da vidimo i točkica sa manjom prisutnosti metana.
 
-D. Komunikacijski protokol (JSON Uplink)
+# D. Komunikacijski protokol (JSON Uplink)
 
 
-# Komunikacijski protokol i struktura JSON paketa
+## Komunikacijski protokol i struktura JSON paketa
 
     paket = {
         "projekt": "Nexus",
@@ -160,7 +159,7 @@ Prednosti:
 -Jasno razdvaja metapodatke i senzorske podatke
 -Petlje omogućuju automatizaciju i skalabilnost sustava
 
-E. Inženjerski dnevnik (Troubleshooting Log)
+# E. Inženjerski dnevnik (Troubleshooting Log)
 
 
 # Inženjerski dnevnik rješavanja problema u obradi podataka
