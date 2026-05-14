@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 
-df1 = pd.read_csv("moji_mars_podaci/mars_lokacije.csv", sep=";", decimal=",")
-df2 = pd.read_csv("moji_mars_podaci/mars_uzorci.csv", sep=";", decimal=",")
+df1 = pd.read_csv("data/mars_sample_locations.csv", sep=";", decimal=",")
+df2 = pd.read_csv("data/mars_soil_samples.csv", sep=";", decimal=",")
 
 df = pd.merge(df1, df2, on="ID_Uzorka")
 
