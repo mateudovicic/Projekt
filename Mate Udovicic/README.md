@@ -1,17 +1,6 @@
 A. Izvršni sažetak (Executive Summary)
 
-# Istraživanje mogućnosti života na Marsu kroz analizu kratera Jezero
-
-
-Krater Jezero detaljno je analizirano kako bi se saznalo postoji li života na Marsu, to jest moglo bi li se jednog dana preseliti na Mars.
-
-
-## Korištenje senzorskih podataka i analize uzoraka za procjenu uvjeta života i planiranje sigurnog kretanja rovera
-
-
-U analizi se koriste strukturirani ulazni podaci prikupljeni senzorima i instrumentima,uključujući identifikator uzorka, dubinu bušenja,
-temperaturu tla, pH vrijednost, postotak vode, očitanja metanskog senzora, prisutnost organskih molekula, GPS koordinate, temperaturu okoliša, vlažnost tla te koncentraciju metana u ppm.
-Obradom tih podataka procjenjuje se mogućnost života na Marsu, te se roveru omogućuju sigurne rute kretanja.
+Ovaj projekt, nazvan "Nexus", ima za cilj automatizaciju prikupljanja i prijenosa znanstvenih podataka s površine Marsa, konkretno iz područja kratera Jezero, poznatog po potencijalnim tragovima drevnog života. Ulazni podaci obuhvaćaju GPS koordinate lokacija uzorkovanja te senzorske mjerne vrijednosti poput dubine bušenja, temperature tla, pH vrijednosti, postotka vlage, prisutnosti metana i organskih molekula — sve pohranjeno u CSV datotekama (mars_sample_locations.csv i mars_kandidati.csv). Konačni cilj je izgradnja automatiziranog sustava koji, na temelju skeniranog barkoda palete i izmjerene težine senzora, pakira sve relevantne podatke u strukturirani JSON nalog (tovarni list), lokalno ga arhivira te ga šalje na centralni server putem HTTP POST zahtjeva, s mogućnošću označavanja prioritetnih (hitnih) uzoraka — čime se omogućuje brza, pouzdana i automatizirana navigacija i logistika misije.Sonnet 4.6
 
 B. Metodologija obrade podataka (Data Wrangling)
 
