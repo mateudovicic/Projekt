@@ -96,8 +96,8 @@ if __name__ == "__main__":
     generiraj_moje_podatke()
 
 
-df_lokacije = pd.read_csv('/home/mateudovicic/moji_mars_podaci/mars_lokacije.csv', sep=';')
-df_uzorci = pd.read_csv('/home/mateudovicic/moji_mars_podaci/mars_uzorci.csv', sep=';')
+df_lokacije = pd.read_csv('data/mars_lokacije.csv', sep=';')
+df_uzorci = pd.read_csv('data/mars_uzorci.csv', sep=';')
 
 merged = pd.merge(
     df_lokacije,
