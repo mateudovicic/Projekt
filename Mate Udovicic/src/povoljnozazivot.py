@@ -78,8 +78,8 @@ def generiraj_moje_podatke():
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
-    putanja_gps = os.path.join(folder_name, 'mars_lokacije.csv')
-    putanja_mjerenja = os.path.join(folder_name, 'mars_uzorci.csv')
+    putanja_gps = os.path.join(folder_name, 'data'/'mars_lokacije.csv')
+    putanja_mjerenja = os.path.join(folder_name, 'data'/'mars_uzorci.csv')
 
     df_gps.to_csv(putanja_gps, index=False, sep=';', decimal=',')
     df_mjerenja.to_csv(putanja_mjerenja, index=False, sep=';', decimal=',')
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     generiraj_moje_podatke()
 
 
-df_lokacije = pd.read_csv('data/mars_lokacije.csv', sep=';')
-df_uzorci = pd.read_csv('data/mars_uzorci.csv', sep=';')
+df_lokacije = pd.read_csv('data'/'mars_lokacije.csv', sep=';')
+df_uzorci = pd.read_csv('data'/'mars_uzorci.csv', sep=';')
 
 merged = pd.merge(
     df_lokacije,
