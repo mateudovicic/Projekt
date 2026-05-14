@@ -5,7 +5,7 @@ import pandas as pd
 print("Sustav za analizu podataka inicijaliziran...")
 
 # Pokušaj učitavanja
-df = pd.read_csv('mars_soil_samples.csv', sep = ';')
+df = pd.read_csv('data'/'mars_soil_samples.csv', sep = ';')
 
 # Ispis prvih 5 redaka (OBAVEZNO koristi print)
 print("--- POKUŠAJ 1 ---")
