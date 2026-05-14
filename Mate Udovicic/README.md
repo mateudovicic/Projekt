@@ -4,86 +4,10 @@ Ovaj projekt, nazvan "Nexus", ima za cilj automatizaciju prikupljanja i prijenos
 
 # B. Metodologija obrade podataka (Data Wrangling)
 
-# Metodologija obrade i simulacije podataka za analizu Marsovog okoliša
+
+U ovom projektu, obrada podataka temelji se na preciznom filtriranju DataFrame objekata kako bi se za svaki skenirani uzorak dohvatili isključivo relevantni redovi iz dviju CSV datoteka. Logički uvjet df_lokacije[df_lokacije['ID_Uzorka'] == id_palete] primijenjen je kako bi se izbjeglo miješanje podataka različitih uzoraka — svaki uzorak ima jedinstveni ID, pa je uvjetno filtriranje jedina pouzdana metoda za točno mapiranje GPS koordinata i senzorskih vrijednosti. Vrijednosti su potom eksplicitno konvertirane u odgovarajuće tipove (float, int, str) kako bi se spriječile greške pri serijalizaciji u JSON format, budući da pandas po defaultu vraća numpy tipove koji nisu uvijek kompatibilni. Što se tiče senzorskog šuma, sustav se oslanja na pretpostavku da su ulazni CSV podaci već prošli primarnu validaciju — međutim, ekstremne temperature ili anomalne pH vrijednosti mogle bi biti detektirane naknadnom provjerom raspona (npr. temperatura izvan očekivanog marsovskog raspona ili pH izvan ljestvice 0–14 signalizira grešku senzora). Takav pristup filtriranja po ID-u, uz strogu tipizaciju podataka i prepoznavanje potencijalnih anomalija, osigurava integritet analitičkog modela i pouzdanost generiranih tovarnih naloga.
 
 
-1. Modeliranje binarnih i kategoričkih varijabli (metan i organske tvari)
-
-Vrijednosti poput prisutnosti metana i organskih tvari generirane su pomoću uvjetnih vjerojatnosti:
-
--Metan: 80–90% slučajeva pozitivno, ovisno o random pragovima
--Organske tvari: ~80% pozitivnih vrijednosti
-
-Ovakav pristup simulira realnu prirodnu distribuciju gdje pozitivni nalazi dominiraju, ali postoje povremeni izuzeci.
-
-Dodatno, uveden je mali postotak “šumnih” podataka (1% slučajeva) koji umjetno generiraju lažno pozitivne vrijednosti.
-Time se modelira:
-
--mjerni šum senzora
--pogreške u detekciji
--anomalni uzorci u okolišu
-
-2. Prostorno-klastersko modeliranje
-
-Podaci su organizirani u tri jasno definirana klastera:
-
--Delta (bliže centru, sedimentno područje)
--Vallis (udaljeniji kanalni sustav)
--Crater Rim (dublje i stijensko područje)
-
-Svaki klaster ima:
-
--pomak u koordinatama (lat/lon offset)
--različit broj uzoraka (count)
--opis okolišnih uvjeta
-
-Koordinate se generiraju pomoću normalne distribucije:
-
--np.random.normal(...) osigurava realističnu prostornu disperziju
--centralna točka klastera definira “geološku zonu”
-
-Ovo sprječava uniformnu distribuciju i uvodi prirodnu prostornu korelaciju podataka.
-
-
-## Statističko modeliranje, prostorna segmentacija i simulacija senzorskog šuma za realističnu interpretaciju podataka iz kratera Jezero
-
- 3. Uvjetno generiranje okolišnih varijabli
-
-Za svaki klaster definiraju se specifične distribucije:
-
--Delta: plitki sedimenti, veća vlaga
-  -manja dubina
-  -veći H₂O sadržaj
--Vallis: srednje dubine, umjerena vlaga
-  -srednje vrijednosti dubine i vlage
--Crater Rim: duboko, stijensko područje
-  -veće dubine
-  -niža vlaga, ali stabilniji uvjeti
-
-Ovaj dio implementira geološku logiku u statističku simulaciju, što povećava realističnost modela.
-
-4. Modeliranje senzorskog šuma (temperatura i pH)
-
-Temperatura i pH vrijednosti generirani su kroz normalnu distribuciju:
-
--temperatura: np.random.normal(...)
--pH: np.random.normal(7.0, 0.2, count)
-
-Ovo predstavlja:
-
--prirodne varijacije okoliša
--senzorski šum (measurement noise)
-
-Standardna devijacija kontrolira razinu fluktuacije, čime se simulira realna nesigurnost mjerenja.
-
-5. Logika dizajna (zašto ovakav pristup)
-
-Ovaj pristup je odabran jer:
-
--omogućuje kontrolirano uvođenje šuma
--zadržava statističku realističnost
--osigurava prostornu i okolišnu korelaciju varijabli
--omogućuje testiranje robusnosti analitičkih modela (npr. detekcija anomalija)
 
 # C. Geoprostorna analiza i vizualizacija
 
@@ -108,7 +32,7 @@ Na ovom grafu vidimo prisutnost metana na određenim koordinatama, najveća pris
 je na koordinatama između 18.47 I 18.49 LON te 77.38 i 77.40 LAT. Koordinate bez prisutnosti
 metana su najčešce na koordinatama 18.48 LON,77.39 LAT i 18.48 LON,77.397 LAT.
 
-## Interpretacija raspodjele vode, temperature, dubine i metana kroz grafičke prikaze i prostorne uzorke**
+### Interpretacija raspodjele vode, temperature, dubine i metana kroz grafičke prikaze i prostorne uzorke**
 
 [![Temp,vlaznost i metan](assets/graf_4_.png)]
 Na ovom grafu vidimo na kojim je koordinatama metan najviše zastupljen u ppm.
@@ -122,42 +46,40 @@ to nam omogućava da lakše očitamo koordinate i da vidimo i točkica sa manjom
 
 
 ## Komunikacijski protokol i struktura JSON paketa
+Mrežni paket generiran funkcijom kreiraj_tovarni_list() šalje se na centralni server putem HTTP POST zahtjeva, a njegova precizna JSON struktura izgleda ovako:
 
-    paket = {
-        "projekt": "Nexus",
-        "posiljatelj": "Mate Udovicic",
-        "vrijeme": str(datetime.datetime.now()),
-        "meta": {
-            "uzorak_id": int(id_palete),
-            "lokacija": {
-                "lat": lat,
-                "lon": lon
-            }
-        }
-        },
-    senzori: {
-            "dubina_busenja": dubina,
-            "temperatura": temp,
-            "ph_vrijednost": ph,
-            "vlaga": vlaga,
-            "metan_senzor": metan,
-            "organske_molekule": organske,
-            "status": "PRIORITET" if hitno else "NORMALNO"
+{
+  "projekt": "Nexus",
+  "posiljatelj": "Mate Udovicic",
+  "vrijeme": "2025-05-14 10:23:45.123456",
+  "meta": {
+    "uzorak_id": 900255,
+    "lokacija": {
+      "lat": 18.4446,
+      "lon": 77.4508
+    }
+  },
+  "senzori": {
+    "dubina_busenja": 32.5,
+    "temperatura": -63.2,
+    "ph_vrijednost": 7.1,
+    "vlaga": 0.04,
+    "metan_senzor": "DETEKTIRAN",
+    "organske_molekule": "POZITIVNO",
+    "status": "PRIORITET"
+  }
+}
 
-## Modularni prijenos podataka senzora uz skalabilan i fleksibilan dizajn za učinkovitu komunikaciju misije
+Ovakva ugniježđena struktura omogućuje vanjskim sustavima jednoznačno parsiranje podataka — meta blok identificira uzorak i njegovu lokaciju, dok senzori blok sadrži sve mjerne vrijednosti. Polje status automatski se postavlja na "PRIORITET" ili "NORMALNO" ovisno o zastavici hitno, čime se eliminira ručno kodiranje prioriteta. Za automatizirano generiranje naredbi za više uzoraka koristi se petlja koja iterira kroz listu ID-ova uzoraka:
+id_lista = [900255, 900256, 900257]
 
-Ovdje je prikaz korištenih JSON podataka za ovu misiju.
-Paket je strukturiran na dvije glavne cjeline, na paket i meta podatke
-te senzore.Umjesto ručnog pisanja svakog senzora (hardcoding), koristi se petlja nad kolekcijom senzora.
-Prednosti:
-- Skalabilnost – lako dodavanje novih senzora
-- Manje grešaka – nema ponavljanja koda
-- Fleksibilnost – dinamičko generiranje paketa
-- Održavanje – jednostavne izmjene na jednom mjestu
+for id_uzorka in id_lista:
+    paket = kreiraj_tovarni_list(id_uzorka, tezina_senzora, je_hitno)
+    spremi_lokalno(paket, f"paleta_{id_uzorka}.json")
+    posalji_na_server(server_url, paket)
+    time.sleep(1)  # pauza između slanja kako bi se izbjeglo preopterećenje servera
 
--Paket je modularan i ugniježđen 
--Jasno razdvaja metapodatke i senzorske podatke
--Petlje omogućuju automatizaciju i skalabilnost sustava
+  Na ovaj način sustav automatski prolazi kroz sve uzorke, pakira podatke, arhivira ih lokalno i šalje na server — bez ikakvog ručnog unosa, što je ključno za autonomni rad terenskog robota u uvjetima ograničene komunikacije s Marsa.
 
 # E. Inženjerski dnevnik (Troubleshooting Log)
 
@@ -207,12 +129,6 @@ KORACI RJEŠAVANJA
   1.Ispisao sam duljine svih nizova prije kreiranja DataFrame-a i uočio problem.
   2.Uvijek sam koristio isti n_rows za sve generatore.
   3.Standardizirao sam generiranje ID_Uzorka: range(1,n_rows + 1)
-  4.Ponovno sam generirao sve nizove i izgradio DataFrame.
-
-
-REZULTAT
-Svi stupci imaju istu duljinu(2000).DataFrame se uspješno kreira i sprema bez pogrešaka.
-
 
 
 
