@@ -24,13 +24,13 @@ sns.set_theme(style="whitegrid")
 
 plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df_cisto, x="Temp_Tla_C", y="H2O_Postotak", hue="Metan_Senzor")
-plt.savefig("graf1_temperatura_voda.png", dpi=200)
+plt.savefig(assets/"graf1_temperatura_voda.png", dpi=200)
 plt.close()
 
 plt.figure(figsize=(10, 6))
 plt.scatter(df_cisto["GPS_LONG"], df_cisto["GPS_LAT"], c=df_cisto["Dubina_Busenja_cm"], cmap="viridis", s=20)
 plt.colorbar(label="Dubina bušenja")
-plt.savefig("graf2_karta_dubine.png", dpi=200)
+plt.savefig(assets/"graf2_karta_dubine.png", dpi=200)
 plt.close()
 
 plt.figure(figsize=(10, 6))
@@ -38,14 +38,14 @@ df_poz = df_cisto[df_cisto["Metan_Senzor"] == "Pozitivno"]
 df_neg = df_cisto[df_cisto["Metan_Senzor"] != "Pozitivno"]
 plt.scatter(df_neg["GPS_LONG"], df_neg["GPS_LAT"], color="blue", s=15)
 plt.scatter(df_poz["GPS_LONG"], df_poz["GPS_LAT"], color="red", s=15)
-plt.savefig("graf3_metan.png", dpi=200)
+plt.savefig(assets/"graf3_metan.png", dpi=200)
 plt.close()
 
 plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df_cisto, x="GPS_LONG", y="GPS_LAT", hue="H2O_Postotak", palette="Blues", legend=False, alpha=0.3)
 df_kandidati = df_cisto[(df_cisto["Metan_Senzor"] == "Pozitivno") & (df_cisto["Organske_Molekule"] == "Da")]
 plt.scatter(df_kandidati["GPS_LONG"], df_kandidati["GPS_LAT"], marker="*", s=250, color="red")
-plt.savefig("karta_kandidata.png", dpi=200)
+plt.savefig(assets/"karta_kandidata.png", dpi=200)
 plt.close()
 
 plt.figure(figsize=(12, 8))
@@ -58,7 +58,7 @@ granice = [
 slika = plt.imread("jezero_crater_satellite_map.jpg")
 plt.imshow(slika, extent=granice, aspect="auto", alpha=0.7)
 sns.scatterplot(data=df_cisto, x="GPS_LONG", y="GPS_LAT", alpha=0.3)
-plt.savefig("misijska_karta_jezero.jpg", dpi=200)
+plt.savefig(assets/"misijska_karta_jezero.jpg", dpi=200)
 plt.close()
 
 lista = []
