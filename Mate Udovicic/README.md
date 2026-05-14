@@ -83,54 +83,17 @@ for id_uzorka in id_lista:
 
 # E. Inženjerski dnevnik (Troubleshooting Log)
 
+Problem 1: Greška pri relacijskom spajanju tablica zbog pogrešnog separatora
+Pri prvom pokretanju skripte, pd.read_csv() vraćao je DataFrame s jednim stupcem umjesto očekivanih višestrukih stupaca — što je uzrokovalo KeyError pri pokušaju pristupa stupcima poput 'ID_Uzorka' ili 'GPS_LAT'. Dijagnozom je utvrđeno da CSV datoteke koriste točku-zarez (;) kao separator, a ne zadani zarez (,). Skripta je pokušavala parsirati cijeli redak kao jednu vrijednost.
+Rješenje: Dodan je eksplicitni parametar sep=';' u pozive pd.read_csv():
+pythondf_lokacije = pd.read_csv('mars_sample_locations.csv', sep=';')
+Nakon ispravka, DataFrame je ispravno razdvajao stupce i filtriranje po ID_Uzorka radilo je očekivano.
 
-# Inženjerski dnevnik rješavanja problema u obradi podataka
-
-
-
-## Analiza grešaka, uzroka i rješenja pri generiranju podataka i izgradnji DataFrame struktura
-1.Neispravno zaokruživanje vrijednosti(np.round)
-PROBLEM
-Skripta se rušila prilikom generiranja DataFrame-a za mjerenja zbog pogrešnog korištenja
-np.round() na cijelom nizu s različitim decimalnim mjestima
-
-
-UZROK
-Funkcija nije podržavala različite preciznosti za elemente niza.
-Kada je pogrešno korišteno da se vrijednosti zaokruživaju u cijelom nizu a ne pojedinačno
-dolazilo je do ValueError
-
-
-KORACI RJEŠAVANJA
-  1.Provjerio sam traceback poruku i identificirao liniju s np.round()
-  2.Pregledao sam dokumentaciju: np.round(a,decimals), očekuje skalarni decimals.
-  3.Ispravio sam pozive taki da se za svaki niz koristi odgovarajući broj decimala.
-  4.Dodao sam np.clip() za pH vrijednosti kako bi bile u fizički mogućem rasponu(0-14)
-  5.Testirao sam generiranje DataFrame-a na 2000 uzoraka
-
-
-REZULTAT
-Skripta se uspješno izvršava.DataFrame s mjerenjima se ispravno generira
-bez grešaka.Vrijednosti su zaokružene odgovarajućom preciznošću.
-
-
-2.Neujednačena dužina nizova pri izgradnji DataFrame-a
-PROBLEM
-Pojavila se pogreška: ValueError:all arrays must be of the same lenght, prilikom
-kreiranja DataFrame-a za lokacije ili mjerenja.
-
-
-UZROK
-Nizovi u rječniku koji se predaje pd.DataFrame() nisu imali istu duljinu.
-Najčešći uzrok:pogrešno korištenje range ili generiranje pojedinih stupaca s različitim n_rows
-
-
-KORACI RJEŠAVANJA
-  1.Ispisao sam duljine svih nizova prije kreiranja DataFrame-a i uočio problem.
-  2.Uvijek sam koristio isti n_rows za sve generatore.
-  3.Standardizirao sam generiranje ID_Uzorka: range(1,n_rows + 1)
-
-
+Problem 2: Odbijanje mrežnog zahtjeva od strane poslužitelja (timeout/connection error)
+Pri pozivu funkcije posalji_na_server(), skripta je povremeno pucala s iznimkom requests.exceptions.ConnectionError ili je server vraćao status kod različit od 200. U jednom slučaju, server nije odgovarao unutar zadanog vremena, što je bez timeout parametra uzrokovalo beskonačno čekanje i zamrzavanje skripte.
+Rješenje: Dodan je timeout=5 parametar u requests.post() poziv, čime se osigurava da skripta odustaje od čekanja nakon 5 sekundi i ispisuje jasnu poruku greške umjesto da se zamrzne:
+pythonodgovor = requests.post(url, json=podaci_json, timeout=5)
+Dodatno, cijeli blok slanja omotan je try/except strukturom koja hvata sve komunikacijske greške i ispisuje ih u konzolu, omogućujući nastavak rada skripte za preostale uzorke bez rušenja cijelog procesa.
 
 
 
