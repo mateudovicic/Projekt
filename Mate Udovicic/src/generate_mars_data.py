@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     # Spremanje u CSV
     samples.to_csv('data'/'mars_soil_samples.csv', index=False, sep=';')
-    locations.to_csv('data''mars_sample_locations.csv', index=False, sep=';')
+    locations.to_csv('data'/'mars_sample_locations.csv', index=False, sep=';')
 
     print(f"Generirano {len(samples)} uzoraka.")
     print("Datoteke kreirane: 'mars_soil_samples.csv', 'mars_sample_locations.csv'")
