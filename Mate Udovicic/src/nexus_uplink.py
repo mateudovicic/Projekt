@@ -10,8 +10,8 @@ def kreiraj_tovarni_list(id_palete, tezina, hitno=False):
     Funkcija prima sirove varijable i slaže ih u RJEČNIK (Dictionary).
     """
 
-    df_lokacije = pd.read_csv('mars_sample_locations.csv', sep=';')
-    df_kandidati = pd.read_csv('mars_kandidati.csv', sep=';')
+    df_lokacije = pd.read_csv('data'/'mars_sample_locations.csv', sep=';')
+    df_kandidati = pd.read_csv('data'/'mars_kandidati.csv', sep=';')
 
     lok_row = df_lokacije[df_lokacije['ID_Uzorka'] == id_palete]
     sen_row = df_kandidati[df_kandidati['ID_Uzorka'] == id_palete]
