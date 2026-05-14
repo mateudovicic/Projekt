@@ -3,9 +3,9 @@ import pandas as pd
 df = pd.read_csv('mars_sample_locations.csv', sep=';')
 print(df.head())
 
-df_kemija = pd.read_csv('mars_soil_samples.csv')
+df_kemija = pd.read_csv('data'/'mars_soil_samples.csv')
 
-df_gps = pd.read_csv('mars_sample_locations.csv')
+df_gps = pd.read_csv('data'/'mars_sample_locations.csv')
 
 print(f"Broj kemijskih uzoraka: {df_kemija.shape[0]}")
 print(f"Broj GPS zapisa: {df_gps.shape[0]}")
